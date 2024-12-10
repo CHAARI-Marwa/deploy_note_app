@@ -13,7 +13,7 @@
         host: '{{ ansible_host | default(inventory_hostname) }}'
       vars:
         ansible_connection: local
-        become: yes
+      become: no
 
 - name: Install Docker and Docker-compose
   hosts: servers
