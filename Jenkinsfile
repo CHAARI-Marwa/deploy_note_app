@@ -21,7 +21,7 @@ pipeline {
                     dir('my-terraform-project/remote-backend') {
                         sh "terraform init"
                         // Apply Terraform configuration
-                        sh "terraform apply --auto-approve"
+                        sh "terraform apply --auto-approve -lock=false"
                     }
                     dir('my-terraform-project') {
                         // Initialize Terraform
