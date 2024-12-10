@@ -223,7 +223,7 @@ pipeline {
 
                                 # Run the Ansible playbook with the become password
                                 ansible-playbook -i hosts docker_deploy_playbook.yml \
-                                --extra-vars "ansible_become_password=${BECOME_PASS}"
+                                --extra-vars "ansible_become_password=${BECOME_PASS}" -vvv
                             else
                                 echo "Playbook docker_deploy_playbook.yml not found!"
                                 exit 1
