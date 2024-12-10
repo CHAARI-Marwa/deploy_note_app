@@ -221,7 +221,7 @@ pipeline {
                             ansible-galaxy collection install community.docker --force
 
                             # Run the Ansible playbook
-                            ansible-playbook -i hosts docker_deploy_playbook.yml
+                            sudo ansible-playbook -i hosts docker_deploy_playbook.yml
                         else
                             echo "Playbook docker_deploy_playbook.yml not found!"
                             exit 1
