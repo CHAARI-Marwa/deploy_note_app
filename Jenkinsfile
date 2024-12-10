@@ -13,6 +13,7 @@ pipeline {
         IMAGE_REPO_FRONTEND = "${IMAGE_REPO}:frontend-1.0"
         IMAGE_REPO_BACKEND = "${IMAGE_REPO}:backend-1.0"
         AWS_REGION = "us-east-1"
+        BECOME_PASS = credentials('ansible_sudo_password')
     }
     stages {
         stage('Provision Server and Database') {
@@ -211,12 +212,15 @@ pipeline {
         stage('Run Ansible Playbook') {
             steps {
                 script {
-                    dir('ansible') {
-                        sh """
-                        if [ -f "docker_deploy_playbook.yml" ]; then
-                            echo "Found playbook docker_deploy_playbook.yml"
+                    dir('ansible') { 
+                        withCredentials([string(credentialsId: 'ansible_sudo_password', variable: 'BECOME_PASS')]) {
+                            sh """
+                            if [ -f "docker_deploy_playbook.yml" ]; then
+                                echo "Found playbook docker_deploy_playbook.yml"
+
                             #Ensure community.docker collection is installed
                             ansible-galaxy collection install community.docker --force
+                            
                             # Run the Ansible playbook
                             ansible-playbook -i hosts docker_deploy_playbook.yml
                         else
