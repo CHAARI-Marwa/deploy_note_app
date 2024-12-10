@@ -219,17 +219,11 @@ pipeline {
                                 echo "Found playbook docker_deploy_playbook.yml"
 
                                 # Ensure community.docker collection is installed
-                                ansible-galaxy collection install community.docker --force || {
-                                    echo "Failed to install Ansible Galaxy collection"
-                                    exit 1
-                                }
+                                ansible-galaxy collection install community.docker --force
 
                                 # Run the Ansible playbook with the become password
-                                ansible-playbook -i hosts docker_deploy_playbook.yml \\
-                                --extra-vars "ansible_become_password=${BECOME_PASS}" -vvv || {
-                                    echo "Ansible playbook execution failed"
-                                    exit 1
-                                }
+                                ansible-playbook -i hosts docker_deploy_playbook.yml \
+                                --extra-vars "ansible_become_password=${BECOME_PASS}" 
                             else
                                 echo "Playbook docker_deploy_playbook.yml not found!"
                                 exit 1
@@ -240,6 +234,7 @@ pipeline {
                 }
             }
         }
+    }
     post {
             success {
                 script {
